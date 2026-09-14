@@ -1,0 +1,788 @@
+openapi: 3.0.3
+info:
+  title: Prospira
+  version: 0.1.0
+  description: Federated AI prosperity OS for Canada. Maps initiatives to fuel-economy, prepare-Canadians,
+    and mitigate-risk action areas with foundation gates on data unlocking, AI literacy, and accountability
+    systems.
+  x-product-slug: ai-gov-prospira
+  x-source: ai-in-gov/deloitte-ca-ai-imperative-public-policys-critical-moment-aoda-en/
+servers:
+- url: https://api.example.com
+tags:
+- name: Strategies
+  description: Prosperity strategy editions
+- name: Initiatives
+  description: Action-area initiatives
+- name: Gates
+  description: Foundation gates and evidence
+- name: DataUnlocks
+  description: Data unlocking instruments
+- name: Literacy
+  description: AI literacy programmes
+- name: Accountability
+  description: Automated decision accountability register
+- name: Scorecards
+  description: Public prosperity scorecards
+paths:
+  /v1/strategies:
+    get:
+      operationId: listProsperityStrategies
+      tags:
+      - Strategies
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeProsperityStrategy'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createProsperityStrategy
+      tags:
+      - Strategies
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProsperityStrategyCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeProsperityStrategy'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v1/initiatives:
+    get:
+      operationId: listInitiatives
+      tags:
+      - Initiatives
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeInitiative'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createInitiative
+      tags:
+      - Initiatives
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeInitiative'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v1/gates:
+    get:
+      operationId: listFoundationGates
+      tags:
+      - Gates
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeFoundationGate'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/gates/{gateId}/evidence:
+    parameters:
+    - $ref: '#/components/parameters/GateId'
+    post:
+      operationId: submitFoundationGateEvidence
+      tags:
+      - Gates
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeFoundationGate'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoundationGateEvidence'
+  /v1/data-unlocks:
+    get:
+      operationId: listDataUnlockItems
+      tags:
+      - DataUnlocks
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeDataUnlockItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDataUnlockItem
+      tags:
+      - DataUnlocks
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataUnlockItemCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeDataUnlockItem'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v1/literacy-programmes:
+    get:
+      operationId: listLiteracyProgrammes
+      tags:
+      - Literacy
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeLiteracyProgramme'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createLiteracyProgramme
+      tags:
+      - Literacy
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LiteracyProgrammeCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeLiteracyProgramme'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v1/accountability-entries:
+    get:
+      operationId: listAccountabilityEntries
+      tags:
+      - Accountability
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeAccountabilityEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createAccountabilityEntry
+      tags:
+      - Accountability
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountabilityEntryCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeAccountabilityEntry'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v1/scorecards:
+    get:
+      operationId: listScorecardReleases
+      tags:
+      - Scorecards
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/Cursor'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeScorecardRelease'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createScorecardRelease
+      tags:
+      - Scorecards
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScorecardReleaseCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataEnvelopeScorecardRelease'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    Cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 25
+    StrategyId:
+      name: strategyId
+      in: path
+      required: true
+      schema:
+        type: string
+    GateId:
+      name: gateId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    UnprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  schemas:
+    ResponseMeta:
+      type: object
+      required:
+      - requestId
+      - timestamp
+      properties:
+        requestId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    Problem:
+      type: object
+      required:
+      - type
+      - title
+      - status
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+    ProsperityStrategy:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+    Initiative:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        strategyId:
+          type: string
+        actionArea:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+    FoundationGate:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        actionArea:
+          type: string
+        gateType:
+          type: string
+        status:
+          type: string
+    DataUnlockItem:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        instrumentType:
+          type: string
+        jurisdiction:
+          type: string
+        status:
+          type: string
+    LiteracyProgramme:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        audience:
+          type: string
+        completions:
+          type: integer
+        status:
+          type: string
+    AccountabilityEntry:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        systemName:
+          type: string
+        assessmentBasis:
+          type: string
+        status:
+          type: string
+    ScorecardRelease:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        period:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+    ProsperityStrategyCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    InitiativeCreate:
+      type: object
+      required:
+      - strategyId
+      - actionArea
+      - title
+      properties:
+        strategyId:
+          type: string
+        actionArea:
+          type: string
+          enum:
+          - fuel_economy
+          - prepare_canadians
+          - mitigate_risk
+        title:
+          type: string
+        jurisdiction:
+          type: string
+    FoundationGateEvidence:
+      type: object
+      required:
+      - evidenceSummary
+      properties:
+        evidenceSummary:
+          type: string
+        clear:
+          type: boolean
+    DataUnlockItemCreate:
+      type: object
+      required:
+      - instrumentType
+      - jurisdiction
+      properties:
+        instrumentType:
+          type: string
+          enum:
+          - tdm_exception
+          - public_dataset_release
+          - privacy_reform
+          - data_strategy
+          - data_trust_guidance
+        jurisdiction:
+          type: string
+        machineReadable:
+          type: boolean
+        privacyReviewed:
+          type: boolean
+    LiteracyProgrammeCreate:
+      type: object
+      required:
+      - audience
+      - name
+      properties:
+        name:
+          type: string
+        audience:
+          type: string
+          enum:
+          - general_public
+          - students
+          - policymakers
+          - regulated_profession
+        targetCompletions:
+          type: integer
+    AccountabilityEntryCreate:
+      type: object
+      required:
+      - systemName
+      - assessmentBasis
+      properties:
+        systemName:
+          type: string
+        assessmentBasis:
+          type: string
+        ownerDepartment:
+          type: string
+    ScorecardReleaseCreate:
+      type: object
+      required:
+      - period
+      properties:
+        period:
+          type: string
+        narrative:
+          type: string
+    DataEnvelopeProsperityStrategy:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/ProsperityStrategy'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeProsperityStrategy:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProsperityStrategy'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    DataEnvelopeInitiative:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/Initiative'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeInitiative:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Initiative'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    DataEnvelopeFoundationGate:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/FoundationGate'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeFoundationGate:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/FoundationGate'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    DataEnvelopeDataUnlockItem:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/DataUnlockItem'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeDataUnlockItem:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/DataUnlockItem'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    DataEnvelopeLiteracyProgramme:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/LiteracyProgramme'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeLiteracyProgramme:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/LiteracyProgramme'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    DataEnvelopeAccountabilityEntry:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountabilityEntry'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeAccountabilityEntry:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountabilityEntry'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    DataEnvelopeScorecardRelease:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          $ref: '#/components/schemas/ScorecardRelease'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ListEnvelopeScorecardRelease:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: object
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ScorecardRelease'
+            nextCursor:
+              type: string
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
